@@ -13,9 +13,9 @@ export default function NoAuth() {
             initialRouteName='Home'
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: '#000',
+                    backgroundColor: '#fff',
                 },
-                headerTintColor: '#FFA600',
+                headerTintColor: '#000',
             }}
         >
             <Stack.Screen

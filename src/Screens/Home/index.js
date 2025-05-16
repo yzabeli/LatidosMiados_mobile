@@ -11,8 +11,6 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 
-import Logo from '../../Components/LogoInicio';
-
 export default function HomeScreen() {
   const { verificarToken } = useContext(AutenticadoContexto);
   verificarToken();
@@ -36,14 +34,14 @@ export default function HomeScreen() {
           style={styles.image}
         >
           <View style={styles.botoes}>
-            <TouchableOpacity style={styles.botao} onPress={navLogin}>
+            <TouchableOpacity style={styles.botao} onPress={navCad}>
               <Text style={styles.texto}>Começar</Text>
             </TouchableOpacity>
             <Text style={styles.texto}>
               Já tem uma conta?
             </Text>
-            <TouchableOpacity style={styles.botaoNone} onPress={navLogin}>
-              <Text style={styles.texto}>Começar</Text>
+            <TouchableOpacity style={styles.botaoSec} onPress={navLogin}>
+              <Text style={styles.texto}>Entrar</Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -81,13 +79,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9',
     opacity: 0.6
   },
-  botaoNone: {
-    margin: 20,
-  },
   texto: {
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 15,
     color: '#000',
+  },
+  botaoSec: {
+    margin: 20,
+    padding: 2,
+    borderRadius: 40,
+    width: 200,
+    borderWidth: 2,
+    borderColor: '#000',
+    backgroundColor: '#D9D9D9',
+    opacity: 0.6
   },
 });

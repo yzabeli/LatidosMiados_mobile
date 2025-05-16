@@ -10,9 +10,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import Logo from '../../Components/LogoInicio';
 import { useNavigation } from '@react-navigation/native';
-
 
 export default function LoginUser() {
     const { verificarToken, loginEntrada } = useContext(AutenticadoContexto);
@@ -40,7 +38,6 @@ export default function LoginUser() {
     return (
         <>
             <SafeAreaView style={styles.container}>
-                <Logo />
                 <View style={styles.formulario}>
                     <TextInput
                         style={styles.campo}
@@ -78,17 +75,18 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingTop: Platform.OS === 'android' ? '15' : 0,
-        backgroundColor: '#000',
+        backgroundColor: '#fff',
         fontFamily: "Inter"
     },
     formulario: {
-        marginTop: 50,
+        marginTop: 200,
     },
     campo: {
         margin: 20,
         padding: 20,
         borderRadius: 40,
         width: 300,
+        borderWidth: 1,
         backgroundColor: '#FFF',
     },
     botao: {
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 40,
         width: 300,
-        backgroundColor: '#FFA600',
+        backgroundColor: '#d9d9d9',
     },
     texto: {
         textAlign: 'center',

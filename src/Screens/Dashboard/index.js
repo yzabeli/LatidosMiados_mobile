@@ -10,7 +10,6 @@ import {
     ScrollView,
 } from 'react-native';
 
-import Logo from '../../Components/LogoInicio';
 import CardProdutos from '../../Components/CardProdutos';
 
 export default function Produtos() {
@@ -21,7 +20,6 @@ export default function Produtos() {
         <>
             <SafeAreaView style={styles.container}>
                 <ScrollView>
-                    <Logo />
                     <TouchableOpacity style={styles.botao} onPress={logout}>
                         <Text style={styles.texto}>Sair</Text>
                     </TouchableOpacity>

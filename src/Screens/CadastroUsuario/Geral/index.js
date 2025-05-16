@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import apiCep from '../../../Api/apiCep';
-import Logo from '../../../Components/LogoInicio';
 
 export default function CadUserGeral() {
     const [nome, setNome] = useState('');
@@ -36,7 +35,6 @@ export default function CadUserGeral() {
         <>
             <SafeAreaView style={styles.container}>
                 <ScrollView>
-                    <Logo />
                     <View style={styles.formulario}>
                         <TextInput
                             style={styles.campo}

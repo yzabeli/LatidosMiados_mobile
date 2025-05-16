@@ -13,9 +13,6 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import apiLocal from '../../../Api/apiLocal'
 
-import Logo from '../../../Components/LogoInicio';
-
-
 export default function CadUserInicio() {
     const { verificarToken } = useContext(AutenticadoContexto);
     verificarToken();
@@ -53,7 +50,6 @@ export default function CadUserInicio() {
         <>
             <SafeAreaView style={styles.container}>
                 <ScrollView>
-                    <Logo />
                     <View style={styles.formulario}>
                         <TextInput
                             style={styles.campo}
@@ -102,17 +98,18 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingTop: Platform.OS === 'android' ? '15' : 0,
-        backgroundColor: '#000',
+        backgroundColor: '#fff',
         fontFamily: "Inter"
     },
     formulario: {
-        marginTop: 10,
+        marginTop: 50,
     },
     campo: {
         margin: 20,
         padding: 20,
         borderRadius: 40,
         width: 300,
+        borderWidth: 1,
         backgroundColor: '#FFF',
     },
     botao: {
@@ -120,7 +117,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 40,
         width: 300,
-        backgroundColor: '#FFA600',
+        backgroundColor: '#d9d9d9',
     },
     texto: {
         textAlign: 'center',
