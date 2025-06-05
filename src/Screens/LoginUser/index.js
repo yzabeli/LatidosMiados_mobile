@@ -10,8 +10,6 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
-
 export default function LoginUser() {
     const { verificarToken, loginEntrada } = useContext(AutenticadoContexto);
     verificarToken();
@@ -20,8 +18,6 @@ export default function LoginUser() {
     const [password, setPassword] = useState('');
     const [resposta, setResposta] = useState('');
 
-    const navigation = useNavigation()
-
     async function fazerLogin(e) {
         e.preventDefault();
         try {
@@ -29,7 +25,6 @@ export default function LoginUser() {
                 setResposta('Existem Campos em Branco');
             };
             await loginEntrada(email, password);
-            navigation.navigate("Home");
         } catch (err) {
             alert("Usuario ou Senha Incorretos");
         };

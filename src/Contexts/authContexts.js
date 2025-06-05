@@ -11,7 +11,7 @@ export default function AuthProvider({ children }) {
     const autenticado = !!tokenT;
 
     async function verificarToken() {
-        const iToken = AsyncStorage.getItem('@token');
+        const iToken = await AsyncStorage.getItem('@token');
         // console.log(iToken);
         if (!iToken) {
             setTokenT(false);
@@ -27,8 +27,8 @@ export default function AuthProvider({ children }) {
             });
             if (resposta.data.id) {
                 setTokenT(true);
-                AsyncStorage.setItem('@id', JSON.stringify(resposta.data.id));
-                AsyncStorage.setItem('@nome', JSON.stringify(resposta.data.nome));
+                await AsyncStorage.setItem('@id', JSON.stringify(resposta.data.id));
+                await AsyncStorage.setItem('@nome', JSON.stringify(resposta.data.nome));
             };
         } catch (err) {
             toast.error(err.response.data.error);
@@ -41,10 +41,11 @@ export default function AuthProvider({ children }) {
                 email,
                 password
             });
-            AsyncStorage.setItem('@id', JSON.stringify(resposta.data.id));
-            AsyncStorage.setItem('@token', JSON.stringify(resposta.data.token));
-            AsyncStorage.setItem('@nome', JSON.stringify(resposta.data.nome));
+            await AsyncStorage.setItem('@id', JSON.stringify(resposta.data.id));
+            await AsyncStorage.setItem('@token', JSON.stringify(resposta.data.token));
+            await AsyncStorage.setItem('@nome', JSON.stringify(resposta.data.nome));
             setTokenT(true);
+            console.log(tokenT)
         } catch (err) {
             toast.error(err.response.data.error);
         };

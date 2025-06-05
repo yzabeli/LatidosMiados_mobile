@@ -31,7 +31,7 @@ export default function CardProdutos() {
                     <View style={styles.card} key={index}>
                         <Image
                             style={styles.imageProd}
-                            source={require('../../Assets/Icone1.png')}
+                            source={require('../../Assets/image-caio.png')}
                         />
                         <Text key={item.id} style={styles.textoO}>{item.nome}</Text>
                         <Text style={styles.textoO}>

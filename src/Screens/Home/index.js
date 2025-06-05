@@ -29,7 +29,7 @@ export default function HomeScreen() {
     <>
       <SafeAreaView style={styles.container}>
         <ImageBackground
-          source={require('../../Assets/image_bg.png')}
+          source={require('../../Assets/image-caio.png')}
           resizeMode="cover"
           style={styles.image}
         >
