@@ -9,7 +9,7 @@ import {
   View,
   ImageBackground
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
   const { verificarToken } = useContext(AutenticadoContexto);
@@ -29,7 +29,7 @@ export default function HomeScreen() {
     <>
       <SafeAreaView style={styles.container}>
         <ImageBackground
-          source={require('../../Assets/image-caio.png')}
+          source={require('../../Assets/image_bg.png')}
           resizeMode="cover"
           style={styles.image}
         >

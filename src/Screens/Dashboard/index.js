@@ -19,22 +19,9 @@ export default function Produtos() {
     return (
         <>
             <SafeAreaView style={styles.container}>
-                <ScrollView>
-                    <TouchableOpacity style={styles.botao} onPress={logout}>
-                        <Text style={styles.texto}>Sair</Text>
-                    </TouchableOpacity>
-                    <View style={styles.botoes}>
-                        <TouchableOpacity style={styles.botaoActive}>
-                            <Text style={styles.textoActive}>Produtos</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.botao}>
-                            <Text style={styles.texto}>Serviços</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.botoes}>
-                        <CardProdutos />
-                    </View>
-                </ScrollView>
+                <View style={styles.botoes}>
+                    <Text style={styles.texto}>Dashboard</Text>
+                </View>
             </SafeAreaView>
         </>
     );
@@ -46,7 +33,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingTop: Platform.OS === 'android' ? '15' : 0,
-        backgroundColor: '#000',
+        backgroundColor: '#fff',
         fontFamily: "Inter"
     },
     logo: {

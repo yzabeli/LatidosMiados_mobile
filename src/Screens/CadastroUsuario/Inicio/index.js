@@ -10,8 +10,8 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native'
-import apiLocal from '../../../Api/apiLocal'
+import { useNavigation } from '@react-navigation/native';
+import apiLocal from '../../../Api/apiLocal';
 
 export default function CadUserInicio() {
     const { verificarToken } = useContext(AutenticadoContexto);
@@ -27,22 +27,22 @@ export default function CadUserInicio() {
 
     async function cadastrarUser(e) {
         try {
-            e.preventDefault()
-            setResposta('')
+            e.preventDefault();
+            setResposta('');
             if (!nome || !email || !telefone || !password) {
-                setResposta("Campos em Branco")
-                return
-            }
+                setResposta("Campos em Branco");
+                return;
+            };
             await apiLocal.post('/CadastrarUsuarios', {
                 nome,
                 email,
                 telefone,
                 password,
-            })
+            });
             navigation.navigate("LoginUsuario");
         } catch (err) {
-            // alert('Erro ao Comunicar com o Servidor')
-            alert(err.response.data.error)
+            // alert('Erro ao Comunicar com o Servidor');
+            alert(err);
         }
     };
 
