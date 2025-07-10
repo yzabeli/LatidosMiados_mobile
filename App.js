@@ -11,7 +11,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <AuthProvider>
-        <StatusBar barStyle='light-content' translucent={false} />
+        <StatusBar barStyle='light-content' translucent={true} />
         <Rotas />
       </AuthProvider>
     </NavigationContainer>

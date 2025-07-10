@@ -2,13 +2,17 @@ import React, { useContext } from 'react';
 import { AutenticadoContexto } from '../../Contexts/authContexts';
 import {
     StyleSheet,
+    FlatList,
     Platform,
     SafeAreaView,
     Text,
     TouchableOpacity,
     View,
     ScrollView,
+    Image,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { animais } from '../../Assets';
 
 import CardProdutos from '../../Components/CardProdutos';
 
@@ -16,11 +20,31 @@ export default function Produtos() {
     const { verificarToken, logout } = useContext(AutenticadoContexto);
     verificarToken();
 
+    const insets = useSafeAreaInsets();
+
     return (
         <>
-            <SafeAreaView style={styles.container}>
-                <View style={styles.botoes}>
+            <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
+                <View style={styles.header}>
                     <Text style={styles.texto}>Dashboard</Text>
+                </View>
+                <View style={styles.card}>
+                    <FlatList
+                        data={animais}
+                        keyExtractor={item => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.carouselContainer}
+                        renderItem={({ item }) => {
+                            return(
+                            <View style={styles.card}>
+                                <Image
+                                    style={styles.image}
+                                    source={item.img}
+                                />
+                            </View>
+                        )}}
+                    />
                 </View>
             </SafeAreaView>
         </>
@@ -36,39 +60,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         fontFamily: "Inter"
     },
-    logo: {
-        margin: 50,
-        height: 50,
-        width: 140,
+    header: {
+        width: '80%',
     },
-    botoes: {
-        display: 'flex',
-        flexDirection: 'row',
-        marginTop: 50,
-        justifyContent: 'center',
-    },
-    botaoActive: {
-        margin: 10,
-        padding: 15,
-        backgroundColor: '#FFA600',
-    },
-    botao: {
-        margin: 10,
-        padding: 15,
-        borderWidth: 3,
-        borderColor: '#FFA600',
-        backgroundColor: '#000',
-    },
-    textoActive: {
-        textAlign: 'center',
+    texto: {
+        textAlign: 'left',
         fontWeight: 'bold',
         fontSize: 15,
         color: '#000',
     },
-    texto: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 15,
-        color: '#FFA600',
+    carouselContainer: {
+        paddingHorizontal: 10,
+        paddingBottom: 20,
+    },
+    card: {
+        margin: 10,
+        // width: '80%'
+    },
+    image: {
+        height: '40%',
+        width: 120,
     },
 });
