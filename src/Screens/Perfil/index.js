@@ -6,13 +6,19 @@ import {
     Text,
     TextInput,
     FlatList,
+    TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
 import { AutenticadoContexto } from '../../Contexts/authContexts';
 import apiLocal from '../../Api/apiLocal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Perfil() {
     const { verificarToken, token } = useContext(AutenticadoContexto);
+    verificarToken();
+
+    const navigation = useNavigation();
 
     const [dadosUser, setDadosUser] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -78,6 +84,9 @@ export default function Perfil() {
                     </View>
                 )}
             />
+            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate("UpdUsuario")}>
+                <Text style={styles.texto}>Atualizar Dados</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -85,6 +94,7 @@ export default function Perfil() {
 const styles = StyleSheet.create({
     div: {
         flex: 1,
+        alignItems: 'center',
         backgroundColor: '#fff',
     },
     infoUser: {
@@ -108,5 +118,18 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: 300,
         backgroundColor: '#FFF',
+    },
+    botao: {
+        margin: 20,
+        padding: 20,
+        borderRadius: 40,
+        width: 300,
+        backgroundColor: '#d9d9d9',
+    },
+    texto: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: '#000',
     },
 });

@@ -1,42 +1,51 @@
-import { useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
 import {
     StyleSheet,
     Platform,
+    SafeAreaView,
     View,
     TextInput,
     Text,
     TouchableOpacity,
-    SafeAreaView,
     ScrollView,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import apiLocal from '../../../Api/apiLocal';
 
-import apiCep from '../../../Api/apiCep';
-import Logo from '../../../Components/LogoInicio';
+export default function CadUserInicioCont() {
+    const navigation = useNavigation();
 
-export default function CadUserGeral() {
     const [nome, setNome] = useState('');
-    const [cep, setCep] = useState('');
-    const [rua, setRua] = useState('');
-    const [cidade, setCidade] = useState('');
     const [email, setEmail] = useState('');
+    const [telefone, setTelefone] = useState('');
     const [password, setPassword] = useState('');
+    const [resposta, setResposta] = useState('');
 
-    async function buscaCep() {
-        const resposta = await apiCep.get(`${cep}/json`);
-        setRua(resposta.data.logradouro);
-        setCidade(resposta.data.localidade);
-    };
-
-    async function cadastrarUser() {
-
+    async function cadastrarUser(e) {
+        try {
+            e.preventDefault();
+            setResposta('');
+            if (!nome || !email || !telefone || !password) {
+                setResposta("Campos em Branco");
+                return;
+            };
+            await apiLocal.post('/CadastrarUsuarios', {
+                nome,
+                email,
+                telefone,
+                password,
+            });
+            navigation.navigate("LoginUsuario");
+        } catch (err) {
+            // alert('Erro ao Comunicar com o Servidor');
+            alert(err);
+        }
     };
 
     return (
         <>
             <SafeAreaView style={styles.container}>
                 <ScrollView>
-                    <Logo />
                     <View style={styles.formulario}>
                         <TextInput
                             style={styles.campo}
@@ -46,30 +55,20 @@ export default function CadUserGeral() {
                         />
                         <TextInput
                             style={styles.campo}
-                            placeholder='Digite o CEP'
-                            value={cep}
-                            onChangeText={setCep}
-                            onBlur={buscaCep}
-                        />
-                        <TextInput
-                            style={styles.campo}
-                            placeholder='Digite a Rua'
-                            value={rua}
-                            onChangeText={setRua}
-                        />
-                        <TextInput
-                            style={styles.campo}
-                            placeholder='Digite a Cidade'
-                            value={cidade}
-                            onChangeText={setCidade}
-                        />
-                        <TextInput
-                            style={styles.campo}
                             placeholder='Digite o E-mail'
+                            keyboardType='email-address'
                             value={email}
                             onChangeText={setEmail}
                         />
                         <TextInput
+                            style={styles.campo}
+                            placeholder='Digite o Telefone'
+                            keyboardType='numeric'
+                            value={telefone}
+                            onChangeText={setTelefone}
+                        />
+                        <TextInput
+                            secureTextEntry={true}
                             style={styles.campo}
                             placeholder='Digite a Senha'
                             value={password}
@@ -78,6 +77,11 @@ export default function CadUserGeral() {
                         <TouchableOpacity style={styles.botao} onPress={cadastrarUser}>
                             <Text style={styles.texto}>Cadastrar</Text>
                         </TouchableOpacity>
+                        {
+                            resposta === 'Campos em Branco'
+                            &&
+                            <Text style={styles.textoResp}>{resposta}</Text>
+                        }
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -90,17 +94,18 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingTop: Platform.OS === 'android' ? '15' : 0,
-        backgroundColor: '#000',
+        backgroundColor: '#fff',
         fontFamily: "Inter"
     },
     formulario: {
-        marginTop: 20,
+        marginTop: 50,
     },
     campo: {
         margin: 20,
         padding: 20,
         borderRadius: 40,
         width: 300,
+        borderWidth: 1,
         backgroundColor: '#FFF',
     },
     botao: {
@@ -108,12 +113,18 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 40,
         width: 300,
-        backgroundColor: '#FFA600',
+        backgroundColor: '#d9d9d9',
     },
     texto: {
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 15,
         color: '#000',
+    },
+    textoResp: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: '#FFF',
     },
 });

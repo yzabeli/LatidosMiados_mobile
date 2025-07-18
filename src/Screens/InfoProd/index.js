@@ -8,7 +8,7 @@ import {
     Text,
     Image,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ToastAndroid } from 'react-native';
 
@@ -18,6 +18,8 @@ import apiLocal from '../../Api/apiLocal';
 export default function InfoProd() {
     const { verificarToken, token } = useContext(AutenticadoContexto);
     verificarToken();
+
+    const navigation = useNavigation();
 
     const route = useRoute();
     const { id } = route.params;
@@ -167,7 +169,7 @@ export default function InfoProd() {
             setQuant(quant - 1)
         }
     }
-
+    
     function aumQuant() {
         setQuant(quant + 1)
     }

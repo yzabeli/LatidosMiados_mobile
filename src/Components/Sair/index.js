@@ -1,11 +1,10 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { AutenticadoContexto } from '../../Contexts/authContexts';
 import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
 export default function Sair() {
-    const { verificarToken, logout } = useContext(AutenticadoContexto);
-    verificarToken();
+    const { logout } = useContext(AutenticadoContexto);
 
     return (
         <TouchableOpacity onPress={logout} style={{ marginRight: 15 }}>
