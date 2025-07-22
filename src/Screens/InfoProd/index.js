@@ -86,7 +86,7 @@ export default function InfoProd() {
                     }
                 };
             } catch (err) {
-                console.log("Erro ao carregar dados do AsyncStorage:", err);
+                // console.log("Erro ao carregar dados do AsyncStorage:", err);
                 // ToastAndroid("Erro ao carregar dados do AsyncStorage:", ToastAndroid.SHORT);
                 setExistePedido(false);
             };
@@ -169,7 +169,7 @@ export default function InfoProd() {
             setQuant(quant - 1)
         }
     }
-    
+
     function aumQuant() {
         setQuant(quant + 1)
     }
@@ -196,8 +196,8 @@ export default function InfoProd() {
                             <Text style={styles.botaoQuant} onPress={aumQuant}>+</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.botaoCar} onPress={() => navigation.navigate("InfoProd", { id: item.id })}>
-                        <Text style={styles.botaoCarText} onPress={() => adCarrinho(idT)}>Adicionar ao Carrinho</Text>
+                    <TouchableOpacity style={styles.botaoCar} onPress={() => adCarrinho(idT)}>
+                        <Text style={styles.botaoCarText}>Adicionar ao Carrinho</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>

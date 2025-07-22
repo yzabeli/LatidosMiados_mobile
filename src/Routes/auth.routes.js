@@ -7,6 +7,7 @@ import DrawerAuth from './DrawerAuth.routes'
 import InfoProd from '../Screens/InfoProd'
 import Carrinho from '../Screens/Carrinho'
 import UpdUsuario from '../Containers/AtualizaDados/Usuario';
+import Perfil from '../Screens/Perfil';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,10 @@ export default function Auth() {
             <Stack.Screen
                 name='UpdUsuario'
                 component={UpdUsuario}
+            />
+            <Stack.Screen
+                name='Perfil'
+                component={Perfil}
             />
         </Stack.Navigator>
     );

@@ -81,12 +81,17 @@ export default function Perfil() {
                             value={item.email || ''}
                             editable={false}
                         />
+                        <TextInput
+                            style={styles.campo}
+                            value={item.numero || ''}
+                            editable={false}
+                        />
+                        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate("UpdUsuario", { id: item.id })}>
+                            <Text style={styles.texto}>Atualizar Dados</Text>
+                        </TouchableOpacity>
                     </View>
                 )}
             />
-            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate("UpdUsuario")}>
-                <Text style={styles.texto}>Atualizar Dados</Text>
-            </TouchableOpacity>
         </View>
     );
 }

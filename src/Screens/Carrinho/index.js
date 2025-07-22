@@ -28,6 +28,8 @@ export default function Carrinho() {
     const [existePedido, setExistePedido] = useState(false);
     const [id_usuario, setIdUsuario] = useState('');
 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         async function buscarPedidosCliente() {
             try {
@@ -38,13 +40,13 @@ export default function Carrinho() {
                 });
                 setDados(resposta.data[0]);
             } catch (err) {
-                console.log(err);
-                ToastAndroid(err, ToastAndroid.SHORT);
+                // console.log(err);
+                // ToastAndroid(err, ToastAndroid.SHORT);
             };
         };
         buscarPedidosCliente();
         // eslint-disable-next-line
-    }, [dadosPedido]);
+    }, [token]);
 
     useEffect(() => {
         async function VisualizaPedidos() {
@@ -62,8 +64,10 @@ export default function Carrinho() {
                     setDadosPedido(resposta.data);
                 }
             } catch (err) {
-                console.log(err);
-                ToastAndroid(err, ToastAndroid.SHORT);
+                // console.log(err);
+                // ToastAndroid(err, ToastAndroid.SHORT);
+            } finally {
+                setLoading(false);
             };
         };
         VisualizaPedidos();
@@ -80,6 +84,14 @@ export default function Carrinho() {
 
     function aumQuant() {
         // setQuant(quant + 1)
+    }
+
+    if (loading) {
+        return (
+            <View>
+                <Text style={{ color: '#000', margin: 20 }}>Carregando...</Text>
+            </View>
+        );
     }
 
     return (
@@ -134,7 +146,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         gap: 40,
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         maxWidth: '98%',
         padding: 10,
         borderTopWidth: 1,

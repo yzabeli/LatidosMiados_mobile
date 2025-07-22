@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect, useContext } from 'react';
+import { AutenticadoContexto } from '../../../Contexts/authContexts';
 import {
     StyleSheet,
     Platform,
@@ -9,18 +9,35 @@ import {
     TouchableOpacity,
     SafeAreaView,
     ScrollView,
+    ToastAndroid,
 } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import apiLocal from '../../../Api/apiLocal';
 
 import apiCep from '../../../Api/apiCep';
 
 export default function UpdUsuario() {
+    const { verificarToken, token } = useContext(AutenticadoContexto);
+    verificarToken();
+
+    const navigation = useNavigation();
+
+    const route = useRoute();
+    const { id } = route.params;
+
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
     const [email, setEmail] = useState('');
     const [cep, setCep] = useState('');
     const [rua, setRua] = useState('');
+    const [numero, setNumero] = useState('');
+    const [complemento, setComplemento] = useState('');
+    const [bairro, setBairro] = useState('');
     const [cidade, setCidade] = useState('');
+    const [uf, setUf] = useState('');
     const [password, setPassword] = useState('');
+
+    const [loading, setLoading] = useState(true);
 
     async function buscaCep() {
         const resposta = await apiCep.get(`${cep}/json`);
@@ -28,78 +45,96 @@ export default function UpdUsuario() {
         setCidade(resposta.data.localidade);
     };
 
-    // useEffect(() => {
-    //     try {
-    //         async function consultarDados() {
-    //             const resposta = await apiLocal.post('/ConsultarUsuariosUnico', {
-    //                 id
-    //             }, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 }
-    //             });
-    //             setNome(resposta.data.nome);
-    //             setTelefone(resposta.data.telefone);
-    //             setEmail(resposta.data.email);
-    //             setCep(resposta.data.cep);
-    //             setRua(resposta.data.rua);
-    //             setNumero(resposta.data.numero);
-    //             setComplemento(resposta.data.complemento);
-    //             setBairro(resposta.data.bairro);
-    //             setCidade(resposta.data.cidade);
-    //             setEstado(resposta.data.estado);
-    //             setPassword(resposta.data.senha);
-    //         };
-    //         consultarDados();
-    //     } catch (err) {
-    //         toast.error('Erro ao Comunicar com o Servidor', {
-    //             toastId: 'ToastId'
-    //         });
-    //     };
-    //     // eslint-disable-next-line
-    // }, []);
+    useEffect(() => {
+        async function consultarDados() {
+            try {
+                const resposta = await apiLocal.post('/ConsultarUsuariosUnico', {
+                    id
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setNome(resposta.data.nome);
+                setTelefone(resposta.data.telefone);
+                setEmail(resposta.data.email);
+                setCep(resposta.data.cep);
+                setRua(resposta.data.rua);
+                setNumero(resposta.data.numero);
+                setComplemento(resposta.data.complemento);
+                setBairro(resposta.data.bairro);
+                setCidade(resposta.data.cidade);
+                setUf(resposta.data.uf);
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setLoading(false);
+            };
+        };
+        consultarDados();
+        // eslint-disable-next-line
+    }, [token]);
 
     async function atualizaUsuario(e) {
-    //     try {
-            e.preventDefault()
-    //         await apiLocal.put('/AlterarDadosUsuarios', {
-    //             id,
-    //             nome,
-    //             telefone,
-    //             email,
-    //             cep,
-    //             rua,
-    //             numero,
-    //             complemento,
-    //             bairro,
-    //             cidade,
-    //             estado
-    //         }, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             }
-    //         });
-    //         toast.success('Cadastro Alterado com Sucesso', {
-    //             toastId: 'ToastId'
-    //         });
-    //     } catch (err) {
-    //         if (err.response) {
-    //             console.log('Erro:', err.response.data);
-    //             console.log('Status:', err.response.status);
-    //         } else {
-    //             console.log('Erro de rede ou configuração:', err.message);
-    //         }
-    //     };
+        e.preventDefault()
+            try {
+                await apiLocal.put('/AlterarDadosUsuarios', {
+                    id,
+                    nome,
+                    telefone,
+                    email,
+                    cep,
+                    rua,
+                    numero,
+                    complemento,
+                    bairro,
+                    cidade,
+                    uf
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                navigation.navigate("Perfil")
+                // ToastAndroid('Cadastro Alterado com Sucesso', ToastAndroid.SHORT)
+            } catch (err) {
+                if (err.response) {
+                    console.log('Erro:', err.response.data);
+                    console.log('Status:', err.response.status);
+                } else {
+                    console.log('Erro de rede ou configuração:', err.message);
+                }
+            };
     };
 
+    if (loading) {
+        return (
+            <View>
+                <Text style={{ color: '#000', margin: 20 }}>Carregando...</Text>
+            </View>
+        );
+    }
+
     return (
-        <>
+        <ScrollView>
             <View style={styles.formulario}>
                 <TextInput
                     style={styles.campo}
                     placeholder='Digite o Nome'
                     value={nome}
                     onChangeText={setNome}
+                />
+                <TextInput
+                    style={styles.campo}
+                    placeholder='Digite o E-mail'
+                    value={email}
+                    onChangeText={setEmail}
+                />
+                <TextInput
+                    style={styles.campo}
+                    placeholder='Digite o Telefone'
+                    value={telefone}
+                    onChangeText={setTelefone}
                 />
                 <TextInput
                     style={styles.campo}
@@ -116,27 +151,45 @@ export default function UpdUsuario() {
                 />
                 <TextInput
                     style={styles.campo}
+                    placeholder='Digite o Número'
+                    value={numero}
+                    onChangeText={setNumero}
+                />
+                <TextInput
+                    style={styles.campo}
+                    placeholder='Digite o Complemento'
+                    value={complemento}
+                    onChangeText={setComplemento}
+                />
+                <TextInput
+                    style={styles.campo}
+                    placeholder='Digite o Bairro'
+                    value={bairro}
+                    onChangeText={setBairro}
+                />
+                <TextInput
+                    style={styles.campo}
                     placeholder='Digite a Cidade'
                     value={cidade}
                     onChangeText={setCidade}
                 />
                 <TextInput
                     style={styles.campo}
-                    placeholder='Digite o E-mail'
-                    value={email}
-                    onChangeText={setEmail}
+                    placeholder='Digite o estado'
+                    value={uf}
+                    onChangeText={setUf}
                 />
-                <TextInput
+                {/* <TextInput
                     style={styles.campo}
                     placeholder='Digite a Senha'
                     value={password}
                     onChangeText={setPassword}
-                />
+                /> */}
                 <TouchableOpacity style={styles.botao} onPress={atualizaUsuario}>
                     <Text style={styles.texto}>Atualizar</Text>
                 </TouchableOpacity>
             </View>
-        </>
+        </ScrollView>
     );
 };
 
@@ -162,6 +215,7 @@ const styles = StyleSheet.create({
         borderRadius: 40,
         width: 300,
         backgroundColor: '#FFA600',
+        marginBottom: 100,
     },
     texto: {
         textAlign: 'center',
