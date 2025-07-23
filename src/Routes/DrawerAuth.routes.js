@@ -8,6 +8,8 @@ import Produtos from '../Screens/Dashboard';
 import Perfil from '../Screens/Perfil';
 import Carrinho from '../Screens/Carrinho';
 
+import Gps from '../Components/GPS'
+
 const Drawer = createDrawerNavigator();
 
 export default function DrawerAuth() {
@@ -50,6 +52,14 @@ export default function DrawerAuth() {
                 options={{
                     drawerIcon: ({ color, size }) => <Feather name="shopping-cart" color={color} size={size} />,
                     drawerLabel: 'Carrinho'
+                }}
+            />
+            <Drawer.Screen
+                name='gps'
+                component={Gps}
+                options={{
+                    drawerIcon: ({ color, size }) => <Feather name="shopping-cart" color={color} size={size} />,
+                    drawerLabel: 'gps'
                 }}
             />
         </Drawer.Navigator>
