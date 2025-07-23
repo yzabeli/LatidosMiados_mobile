@@ -13,7 +13,8 @@ import {
 } from 'expo-location';
 
 export default function Gps() {
-    const mapaRef = useRef(MapView);
+    // const mapaRef = useRef(MapView);
+    const mapaRef = useRef(null);
     const [localizacao, setLocalizacao] = useState(null);
 
     useEffect(() => {
@@ -28,17 +29,24 @@ export default function Gps() {
     }, []);
 
     useEffect(() => {
-        watchPositionAsync({
-            accuracy: LocationAccuracy.Highest,
-            setInterval: 1000,
-            distanceInterval: 1
-        }, (resposta) => {
-            setLocalizacao(resposta)
-            mapaRef.current.animateCamera({
-                pitch: 10,
-                center: resposta.coords
+        const iniciarRastreamento = async () => {
+            await watchPositionAsync({
+                accuracy: LocationAccuracy.Highest,
+                setInterval: 1000,
+                distanceInterval: 1
+            }, (resposta) => {
+                setLocalizacao(resposta);
+
+                if (mapaRef.current) {
+                    mapaRef.current.animateCamera({
+                        pitch: 10,
+                        center: resposta.coords
+                    });
+                };
             });
-        });
+        };
+
+        iniciarRastreamento()
     }, []);
 
 
