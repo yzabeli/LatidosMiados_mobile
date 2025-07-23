@@ -52,7 +52,7 @@ export default function Produtos() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
         paddingTop: Platform.OS === 'android' ? '15' : 0,
         backgroundColor: '#fff',
         fontFamily: "Inter"

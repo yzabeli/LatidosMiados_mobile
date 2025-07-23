@@ -42,18 +42,18 @@ export default function CardProdutos() {
                             style={styles.imageProd}
                             source={{ uri: `http://10.0.2.2:3333/files/${item.banner}` }}
                         />
-                        <Text style={styles.textoPreco}>{item.nome}</Text>
+                        <Text style={styles.texto}>{item.nome}</Text>
                         {
                             item.descricao === ''
                                 ?
-                                <Text style={styles.textoPreco}>
+                                <Text style={styles.texto}>
                                 </Text>
                                 :
-                                <Text style={styles.textoPreco}>
+                                <Text style={styles.texto}>
                                     {item.descricao}
                                 </Text>
                         }
-                        <Text style={styles.textoPreco}>
+                        <Text style={styles.texto}>
                             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.preco)}
                         </Text>
                         <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate("InfoProd", { id: item.id })}>
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#BDBDBD',
         width: 150,
-        height: 300,
     },
     imageProd: {
         marginBottom: 10,
@@ -88,13 +87,15 @@ const styles = StyleSheet.create({
         width: 120,
         backgroundColor: '#000',
     },
-    textoPreco: {
+    texto: {
+        textAlign: 'center',
+        height: 20,
         fontWeight: 'bold',
         fontSize: 15,
         color: '#000',
     },
     botao: {
-        margin: 20,
+        margin: 10,
         padding: 20,
         borderRadius: 40,
         width: '100%',
