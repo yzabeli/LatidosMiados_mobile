@@ -41,10 +41,6 @@ export default function Auth() {
                 name='UpdUsuario'
                 component={UpdUsuario}
             />
-            <Stack.Screen
-                name='Perfil'
-                component={Perfil}
-            />
         </Stack.Navigator>
     );
 };

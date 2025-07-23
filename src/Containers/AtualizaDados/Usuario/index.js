@@ -95,7 +95,7 @@ export default function UpdUsuario() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                navigation.navigate("Perfil")
+                navigation.navigate("DrawerAuth");
                 // ToastAndroid('Cadastro Alterado com Sucesso', ToastAndroid.SHORT)
             } catch (err) {
                 if (err.response) {
