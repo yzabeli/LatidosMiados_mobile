@@ -74,16 +74,51 @@ export default function Perfil() {
                             }
                         />
                         <Text style={styles.name}>
-                            {item.nome || ''}
+                            {item.nome || 'Nome do usuário'}
                         </Text>
                         <TextInput
                             style={styles.campo}
-                            value={item.email || ''}
+                            value={item.telefone || 'Telefone'}
                             editable={false}
                         />
                         <TextInput
                             style={styles.campo}
-                            value={item.numero || ''}
+                            value={item.email || 'E-mail'}
+                            editable={false}
+                        />
+                        <TextInput
+                            style={styles.campo}
+                            value={item.cep || 'CEP'}
+                            editable={false}
+                        />
+                        <TextInput
+                            style={styles.campo}
+                            value={item.rua || 'Rua'}
+                            editable={false}
+                        />
+                        <TextInput
+                            style={styles.campo}
+                            value={item.numero || 'Número da residência'}
+                            editable={false}
+                        />
+                        <TextInput
+                            style={styles.campo}
+                            value={item.complemento || 'Complemento'}
+                            editable={false}
+                        />
+                        <TextInput
+                            style={styles.campo}
+                            value={item.bairro || 'Bairro'}
+                            editable={false}
+                        />
+                        <TextInput
+                            style={styles.campo}
+                            value={item.cidade || 'Cidade'}
+                            editable={false}
+                        />
+                        <TextInput
+                            style={styles.campo}
+                            value={item.estado || 'Estado'}
                             editable={false}
                         />
                         <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate("UpdUsuario", { id: item.id })}>
@@ -117,8 +152,8 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     campo: {
-        margin: 20,
-        padding: 20,
+        marginVertical: 10,
+        padding: 10,
         borderRadius: 10,
         borderWidth: 1,
         width: 300,

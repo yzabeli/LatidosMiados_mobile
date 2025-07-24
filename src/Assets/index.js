@@ -1,4 +1,6 @@
 import Cachorro from './Imgs/image_bg.png'
+import Gato from './Imgs/gato.jpg'
+import Danrley from './Imgs/danrley.jpg'
 
 export const animais = [
     {
@@ -7,14 +9,10 @@ export const animais = [
     },
     {
         id: 2,
-        img: Cachorro
+        img: Gato
     },
     {
         id: 3,
-        img: Cachorro
-    },
-    {
-        id: 4,
-        img: Cachorro
+        img: Danrley
     },
 ];

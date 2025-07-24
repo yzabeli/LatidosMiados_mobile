@@ -68,11 +68,11 @@ export default function CardProdutos() {
 
 const styles = StyleSheet.create({
     carouselContainer: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
         paddingBottom: 20,
+        gap: 10,
     },
     card: {
-        margin: 10,
         padding: 10,
         alignItems: 'center',
         borderWidth: 1,

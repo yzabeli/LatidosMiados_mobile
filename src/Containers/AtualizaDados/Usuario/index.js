@@ -35,14 +35,15 @@ export default function UpdUsuario() {
     const [bairro, setBairro] = useState('');
     const [cidade, setCidade] = useState('');
     const [uf, setUf] = useState('');
-    const [password, setPassword] = useState('');
 
     const [loading, setLoading] = useState(true);
 
     async function buscaCep() {
         const resposta = await apiCep.get(`${cep}/json`);
         setRua(resposta.data.logradouro);
-        setCidade(resposta.data.localidade);
+        setRua(resposta.data.logradouro);
+        setBairro(resposta.data.bairro);
+        setUf(resposta.data.uf);
     };
 
     useEffect(() => {
@@ -64,7 +65,7 @@ export default function UpdUsuario() {
                 setComplemento(resposta.data.complemento);
                 setBairro(resposta.data.bairro);
                 setCidade(resposta.data.cidade);
-                setUf(resposta.data.uf);
+                setUf(resposta.data.estado);
             } catch (err) {
                 console.log(err)
             } finally {
@@ -74,37 +75,36 @@ export default function UpdUsuario() {
         consultarDados();
         // eslint-disable-next-line
     }, [token]);
-
     async function atualizaUsuario(e) {
         e.preventDefault()
-            try {
-                await apiLocal.put('/AlterarDadosUsuarios', {
-                    id,
-                    nome,
-                    telefone,
-                    email,
-                    cep,
-                    rua,
-                    numero,
-                    complemento,
-                    bairro,
-                    cidade,
-                    uf
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                navigation.navigate("DrawerAuth");
-                // ToastAndroid('Cadastro Alterado com Sucesso', ToastAndroid.SHORT)
-            } catch (err) {
-                if (err.response) {
-                    console.log('Erro:', err.response.data);
-                    console.log('Status:', err.response.status);
-                } else {
-                    console.log('Erro de rede ou configuração:', err.message);
+        try {
+            await apiLocal.put('/AlterarDadosUsuarios', {
+                id,
+                nome,
+                telefone,
+                email,
+                cep,
+                rua,
+                numero,
+                complemento,
+                bairro,
+                cidade,
+                uf
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
-            };
+            });
+            console.log(complemento);
+            navigation.navigate("DrawerAuth");
+            // ToastAndroid('Cadastro Alterado com Sucesso', ToastAndroid.SHORT)
+        } catch (err) {
+            if (err.response) {
+                console.log('Status:', err.response.status);
+            } else {
+                console.log('Erro de rede ou configuração:', err.message);
+            }
+        };
     };
 
     if (loading) {
@@ -118,6 +118,7 @@ export default function UpdUsuario() {
     return (
         <ScrollView>
             <View style={styles.formulario}>
+                <Text style={styles.title}>Atualização de Cadastro</Text>
                 <TextInput
                     style={styles.campo}
                     placeholder='Digite o Nome'
@@ -179,12 +180,6 @@ export default function UpdUsuario() {
                     value={uf}
                     onChangeText={setUf}
                 />
-                {/* <TextInput
-                    style={styles.campo}
-                    placeholder='Digite a Senha'
-                    value={password}
-                    onChangeText={setPassword}
-                /> */}
                 <TouchableOpacity style={styles.botao} onPress={atualizaUsuario}>
                     <Text style={styles.texto}>Atualizar</Text>
                 </TouchableOpacity>
@@ -201,9 +196,14 @@ const styles = StyleSheet.create({
         fontFamily: "Inter",
         backgroundColor: '#fff',
     },
+    title: {
+        marginBottom: 10,
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
     campo: {
-        margin: 20,
-        padding: 20,
+        marginVertical: 10,
+        padding: 10,
         borderRadius: 10,
         borderWidth: 1,
         width: 300,

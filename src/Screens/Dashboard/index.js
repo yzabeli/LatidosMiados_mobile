@@ -3,16 +3,20 @@ import { AutenticadoContexto } from '../../Contexts/authContexts';
 import {
     StyleSheet,
     Platform,
-    SafeAreaView,
     View,
     Text,
+    Dimensions,
+    ScrollView
 } from 'react-native';
 
 import CardProdutos from '../../Components/CardProdutos';
+import Carrosel from '../../Components/Carrossel';
 
 export default function Produtos() {
     const { verificarToken } = useContext(AutenticadoContexto);
     verificarToken();
+
+    const larguraTela = Dimensions.get('window').width;
 
     const [loading, setLoading] = useState(true);
 
@@ -39,11 +43,15 @@ export default function Produtos() {
 
     return (
         <>
-            <SafeAreaView style={styles.container}>
+            <ScrollView style={[styles.container, { width: larguraTela }]}>
+                <Text style={styles.title}>Encontre tudo que seu pet precisa!</Text>
+                <View>
+                    <Carrosel />
+                </View>
                 <View>
                     <CardProdutos />
                 </View>
-            </SafeAreaView>
+            </ScrollView>
         </>
     );
 
@@ -52,9 +60,14 @@ export default function Produtos() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // alignItems: 'center',
         paddingTop: Platform.OS === 'android' ? '15' : 0,
+        fontFamily: "Inter",
         backgroundColor: '#fff',
-        fontFamily: "Inter"
+    },
+    title: {
+        marginHorizontal: 20,
+        marginBottom: 10,
+        fontSize: 24,
+        fontWeight: 'bold',
     },
 });
