@@ -58,7 +58,7 @@ export default function DrawerAuth() {
                 name='gps'
                 component={Gps}
                 options={{
-                    drawerIcon: ({ color, size }) => <Feather name="shopping-cart" color={color} size={size} />,
+                    drawerIcon: ({ color, size }) => <Feather name="navigation" color={color} size={size} />,
                     drawerLabel: 'gps'
                 }}
             />

@@ -43,6 +43,7 @@ export default function UpdUsuario() {
         setRua(resposta.data.logradouro);
         setRua(resposta.data.logradouro);
         setBairro(resposta.data.bairro);
+        setCidade(resposta.data.localidade);
         setUf(resposta.data.uf);
     };
 
@@ -95,7 +96,6 @@ export default function UpdUsuario() {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log(complemento);
             navigation.navigate("DrawerAuth");
             // ToastAndroid('Cadastro Alterado com Sucesso', ToastAndroid.SHORT)
         } catch (err) {

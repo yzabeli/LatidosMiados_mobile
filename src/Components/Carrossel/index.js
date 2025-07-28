@@ -35,9 +35,7 @@ const styles = StyleSheet.create({
     },
     card: {
         alignItems: 'center',
-        borderWidth: 1,
         borderRadius: 10,
-        borderColor: '#BDBDBD',
         marginBottom: 10,
     },
     imageProd: {

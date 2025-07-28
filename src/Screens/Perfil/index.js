@@ -39,7 +39,7 @@ export default function Perfil() {
                     );
 
                     setDadosUser([response.data]);
-                }
+                };
             } catch (err) {
                 console.error('Erro ao carregar perfil:', err);
             } finally {
@@ -70,7 +70,7 @@ export default function Perfil() {
                                 item.foto ?
                                     { uri: `http://10.0.2.2:3333/files/${item.foto}` }
                                     :
-                                    require('../../Assets/unknown-user.jpg')
+                                    require('../../Assets/Imgs/unknown-user.jpg')
                             }
                         />
                         <Text style={styles.name}>
