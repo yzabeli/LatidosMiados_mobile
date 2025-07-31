@@ -10,6 +10,8 @@ import {
     Image,
     Dimensions,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { AutenticadoContexto } from '../../Contexts/authContexts';
 import apiLocal from '../../Api/apiLocal';
 
@@ -17,6 +19,8 @@ import apiLocal from '../../Api/apiLocal';
 export default function Carrinho() {
     const { verificarToken, token } = useContext(AutenticadoContexto);
     verificarToken();
+
+    const navigation = useNavigation();
 
     const larguraTela = Dimensions.get('window').width;
 
@@ -74,17 +78,18 @@ export default function Carrinho() {
         // eslint-disable-next-line
     }, [dados])
 
-    function dimQuant() {
-        // if (quant < 2) {
-        //     return
-        // } else {
-        //     setQuant(quant - 1)
-        // }
-    }
-
-    function aumQuant() {
-        // setQuant(quant + 1)
-    }
+    async function apagarItensCarrinho(iddT) {
+        try {
+            const resposta = await apiLocal.delete(`/ApagarItensCarrinho/${iddT}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log(resposta.data.dados)
+        } catch (err) {
+            console.log(err)
+        };
+    };
 
     if (loading) {
         return (
@@ -100,35 +105,31 @@ export default function Carrinho() {
                 <FlatList
                     data={dadosPedido?.itens?.filter(item => item?.produtos)}
                     keyExtractor={(item, index) => `${item.id}-${index}`}
-                    contentContainerStyle={styles.carouselContainer}
                     renderItem={({ item }) => {
                         return (
-                            <View style={[styles.card, { width: larguraTela}]}>
-                                <Image
-                                    style={styles.imageProd}
-                                    source={{ uri: `http://10.0.2.2:3333/files/${item.produtos?.banner}` }}
-                                />
-                                <View>
-                                    <Text key={item.id} style={styles.texto}>{item.produtos?.nome}</Text>
-                                    <Text style={styles.texto}>
-                                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}
-                                    </Text>
+                            <>
+                                <View style={[styles.card, { width: larguraTela }]}>
+                                    <Image
+                                        style={styles.imageProd}
+                                        source={{ uri: `http://10.0.2.2:3333/files/${item.produtos?.banner}` }}
+                                    />
+                                    <View style={styles.campoTexto}>
+                                        <Text key={item.id} style={styles.texto}>{item.produtos?.nome}</Text>
+                                        <Text style={styles.texto}>
+                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}
+                                        </Text>
+                                    </View>
                                 </View>
-                                <View style={styles.quant}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.botaoQuant} onPress={dimQuant}>-</Text>
-                                    </TouchableOpacity>
-                                    <Text style={styles.textoQuant}>
-                                        {item.quantidade}
-                                    </Text>
-                                    <TouchableOpacity>
-                                        <Text style={styles.botaoQuant} onPress={aumQuant}>+</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
+                                <TouchableOpacity style={styles.botao} onPress={() => apagarItensCarrinho(item.id)}>
+                                    <Text style={styles.textoBotao}>Apagar Item</Text>
+                                </TouchableOpacity>
+                            </>
                         )
                     }}
                 />
+                <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate("DrawerAuth")}>
+                    <Text style={styles.textoBotao}>Finalizar Pedido</Text>
+                </TouchableOpacity>
             </SafeAreaView>
         </>
     );
@@ -145,8 +146,9 @@ const styles = StyleSheet.create({
     card: {
         flex: 1,
         flexDirection: 'row',
-        gap: 40,
+        gap: 10,
         justifyContent: 'space-around',
+        alignItems: 'center',
         maxWidth: '98%',
         padding: 10,
         borderTopWidth: 1,
@@ -158,26 +160,28 @@ const styles = StyleSheet.create({
         height: 70,
         width: 70,
     },
-    botoes: {
-        marginTop: 200,
+    campoTexto: {
+        maxWidth: '60%',
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: '#000',
     },
     texto: {
         fontWeight: 'bold',
         fontSize: 16,
         color: '#000',
     },
-    textoQuant: {
-        fontWeight: 'bold',
-        fontSize: 30,
-        color: '#000',
+    botao: {
+        margin: 20,
+        padding: 20,
+        borderRadius: 40,
+        width: 300,
+        backgroundColor: '#d9d9d9',
     },
-    quant: {
-        flexDirection: 'row',
-        gap: 10,
-    },
-    botaoQuant: {
+    textoBotao: {
+        textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 30,
+        fontSize: 15,
         color: '#000',
     },
 });

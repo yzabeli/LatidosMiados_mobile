@@ -19,7 +19,7 @@ export default function Carrosel() {
                 <View style={styles.card}>
                     <Image
                         style={styles.imageProd}
-                        source={item.img} // imagem já está pronta
+                        source={item.img}
                     />
                 </View>
             )}

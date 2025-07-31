@@ -169,7 +169,7 @@ export default function InfoProd() {
             setQuant(quant - 1)
         }
     }
-
+    
     function aumQuant() {
         setQuant(quant + 1)
     }
@@ -184,7 +184,7 @@ export default function InfoProd() {
                     />
                     <Text style={styles.texto}>{nome}</Text>
                     <Text style={styles.texto}>{descricao}</Text>
-                    <Text style={styles.texto}>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(preco)}</Text>
+                    <Text style={styles.texto}>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(preco * quant)}</Text>
                     <View style={styles.quant}>
                         <TouchableOpacity>
                             <Text style={styles.botaoQuant} onPress={dimQuant}>-</Text>
@@ -196,7 +196,10 @@ export default function InfoProd() {
                             <Text style={styles.botaoQuant} onPress={aumQuant}>+</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.botaoCar} onPress={() => adCarrinho(idT)}>
+                    <TouchableOpacity style={styles.botaoCar} onPress={() => {
+                        adCarrinho(idT);
+                        navigation.navigate("DrawerAuth");
+                    }}>
                         <Text style={styles.botaoCarText}>Adicionar ao Carrinho</Text>
                     </TouchableOpacity>
                 </View>

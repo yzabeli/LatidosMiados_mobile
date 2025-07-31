@@ -6,7 +6,8 @@ import {
     View,
     Text,
     Dimensions,
-    ScrollView
+    ScrollView,
+    Image
 } from 'react-native';
 
 import CardProdutos from '../../Components/CardProdutos';
@@ -18,6 +19,7 @@ export default function Produtos() {
 
     const larguraTela = Dimensions.get('window').width;
 
+    const [click, setClick] = useState(0);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -48,9 +50,17 @@ export default function Produtos() {
                 <View>
                     <Carrosel />
                 </View>
-                <View>
+                <View onTouchEnd={() => {
+                    setClick(click + 1);
+                }}>
                     <CardProdutos />
                 </View>
+                {click >= 10
+                    &&
+                    <Image
+                        source={require('../../Assets/Imgs/danrley.jpg')}
+                    />
+                }
             </ScrollView>
         </>
     );

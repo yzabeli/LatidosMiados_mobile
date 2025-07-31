@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import { AutenticadoContexto } from '../../../Contexts/authContexts';
 import {
     StyleSheet,
     Platform,
@@ -7,11 +6,12 @@ import {
     TextInput,
     Text,
     TouchableOpacity,
-    SafeAreaView,
     ScrollView,
-    ToastAndroid,
+    // ToastAndroid,
 } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
+
+import { AutenticadoContexto } from '../../../Contexts/authContexts';
 import apiLocal from '../../../Api/apiLocal';
 
 import apiCep from '../../../Api/apiCep';
@@ -26,8 +26,10 @@ export default function UpdUsuario() {
     const { id } = route.params;
 
     const [nome, setNome] = useState('');
-    const [telefone, setTelefone] = useState('');
+    const [cpfMask, setCpfMask] = useState('');
+    const [cpf, setCpf] = useState('');
     const [email, setEmail] = useState('');
+    const [telefone, setTelefone] = useState('');
     const [cep, setCep] = useState('');
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
@@ -48,6 +50,11 @@ export default function UpdUsuario() {
     };
 
     useEffect(() => {
+        const cpfToMask = cpf.replace(/\D/g, '').slice(0, 11);
+        setCpfMask(cpfToMask.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'));
+    }, [cpf]);
+
+    useEffect(() => {
         async function consultarDados() {
             try {
                 const resposta = await apiLocal.post('/ConsultarUsuariosUnico', {
@@ -58,8 +65,9 @@ export default function UpdUsuario() {
                     }
                 });
                 setNome(resposta.data.nome);
-                setTelefone(resposta.data.telefone);
+                setCpf(resposta.data.cpf);
                 setEmail(resposta.data.email);
+                setTelefone(resposta.data.telefone);
                 setCep(resposta.data.cep);
                 setRua(resposta.data.rua);
                 setNumero(resposta.data.numero);
@@ -76,12 +84,16 @@ export default function UpdUsuario() {
         consultarDados();
         // eslint-disable-next-line
     }, [token]);
+
     async function atualizaUsuario(e) {
         e.preventDefault()
         try {
+            const cpf = cpfMask.match(/\d/g).join("");
             await apiLocal.put('/AlterarDadosUsuarios', {
                 id,
                 nome,
+                cpf,
+                email,
                 telefone,
                 email,
                 cep,
@@ -103,7 +115,7 @@ export default function UpdUsuario() {
                 console.log('Status:', err.response.status);
             } else {
                 console.log('Erro de rede ou configuração:', err.message);
-            }
+            };
         };
     };
 
@@ -113,7 +125,15 @@ export default function UpdUsuario() {
                 <Text style={{ color: '#000', margin: 20 }}>Carregando...</Text>
             </View>
         );
-    }
+    };
+
+    function aplicarMascaraCPF(valor) {
+        const cpf = valor.replace(/\D/g, '').slice(0, 11);
+        if (cpf.length <= 3) return cpf;
+        if (cpf.length <= 6) return cpf.replace(/(\d{3})(\d+)/, '$1.$2');
+        if (cpf.length <= 9) return cpf.replace(/(\d{3})(\d{3})(\d+)/, '$1.$2.$3');
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+    };
 
     return (
         <ScrollView>
@@ -124,6 +144,18 @@ export default function UpdUsuario() {
                     placeholder='Digite o Nome'
                     value={nome}
                     onChangeText={setNome}
+                />
+                <TextInput
+                    style={styles.campo}
+                    placeholder='Digite o CPF'
+                    value={cpfMask}
+                    onChangeText={(valor) => {
+                        const cpfLimpo = valor.replace(/\D/g, '');
+                        setCpf(cpfLimpo);
+                        setCpfMask(aplicarMascaraCPF(valor));
+                    }}
+                    on
+                    keyboardType="numeric"
                 />
                 <TextInput
                     style={styles.campo}

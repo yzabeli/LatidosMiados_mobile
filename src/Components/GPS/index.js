@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import {
     StatusBar,
     StyleSheet,
@@ -12,19 +12,56 @@ import {
     LocationAccuracy
 } from 'expo-location';
 
+import apiLocal from '../../Api/apiLocal';
+import { AutenticadoContexto } from '../../Contexts/authContexts';
+
 export default function Gps() {
+    const {verificarToken, token} = useContext(AutenticadoContexto)
+    verificarToken();
     // const mapaRef = useRef(MapView);
     const mapaRef = useRef(null);
     const [localizacao, setLocalizacao] = useState(null);
 
     useEffect(() => {
-        async function requisitarLocal() {
-            const { granted } = await requestForegroundPermissionsAsync();
-            if (granted) {
-                const posicaoAtual = await getCurrentPositionAsync();
-                setLocalizacao(posicaoAtual);
+        if (localizacao) {
+            const enviarLocalizacao = async () => {
+                try {
+                    await apiLocal.put('/AtualizarLocalizacaoUsuario',
+                        {
+                            latitude: localizacao.coords.latitude,
+                            longitude: localizacao.coords.longitude
+                        },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    );
+                    console.log('Localização enviada com sucesso!');
+                } catch (error) {
+                    console.error('Erro ao enviar localização:', error);
+                }
             };
-        };
+
+            enviarLocalizacao();
+        }
+    }, [localizacao]);
+
+    useEffect(() => {
+        async function requisitarLocal() {
+            try {
+                const { granted } = await requestForegroundPermissionsAsync();
+                if (granted) {
+                    const posicaoAtual = await getCurrentPositionAsync();
+                    setLocalizacao(posicaoAtual);
+                } else {
+                    alert('Permissão de localização negada.');
+                }
+            } catch (error) {
+                console.error('Erro ao obter localização:', error);
+            }
+        }
         requisitarLocal();
     }, []);
 
