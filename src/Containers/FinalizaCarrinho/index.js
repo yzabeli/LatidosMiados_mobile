@@ -27,21 +27,21 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingTop: Platform.OS === 'android' ? '15' : 0,
-        backgroundColor: '#000',
+        backgroundColor: '#fff',
         fontFamily: "Inter"
     },
     texto: {
         marginVertical: 5,
         fontWeight: 'bold',
         fontSize: 24,
-        color: '#fff',
+        color: '#000',
     },
     botao: {
         margin: 20,
         padding: 20,
         borderRadius: 40,
         width: 300,
-        backgroundColor: '#FFA600',
+        backgroundColor: '#d9d9d9',
     },
     textoBotao: {
         textAlign: 'center',
