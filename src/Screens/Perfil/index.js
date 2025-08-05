@@ -78,7 +78,11 @@ export default function Perfil() {
                         </Text>
                         <TextInput
                             style={styles.campo}
-                            value={item.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4') || 'CPF'}
+                            value={
+                                item.cpf
+                                    ? item.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+                                    : 'CPF'
+                            }
                             editable={false}
                         />
                         <TextInput
@@ -88,12 +92,20 @@ export default function Perfil() {
                         />
                         <TextInput
                             style={styles.campo}
-                            value={item.telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3') || 'Telefone'}
+                            value={
+                                item.telefone
+                                    ? item.telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
+                                    : 'Telefone'
+                            }
                             editable={false}
                         />
                         <TextInput
                             style={styles.campo}
-                            value={item.cep.replace(/(\d{5})(\d{3})/, '$1-$2') || 'CEP'}
+                            value={
+                                item.cep
+                                    ? item.cep.replace(/(\d{5})(\d{3})/, '$1-$2')
+                                    : 'CEP'
+                            }
                             editable={false}
                         />
                         <TextInput

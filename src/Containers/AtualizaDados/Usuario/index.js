@@ -26,7 +26,6 @@ export default function UpdUsuario() {
     const { id } = route.params;
 
     const [nome, setNome] = useState('');
-    const [cpfMask, setCpfMask] = useState('');
     const [cpf, setCpf] = useState('');
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -48,11 +47,6 @@ export default function UpdUsuario() {
         setCidade(resposta.data.localidade);
         setUf(resposta.data.uf);
     };
-
-    useEffect(() => {
-        const cpfToMask = cpf.replace(/\D/g, '').slice(0, 11);
-        setCpfMask(cpfToMask.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'));
-    }, [cpf]);
 
     useEffect(() => {
         async function consultarDados() {
@@ -88,7 +82,6 @@ export default function UpdUsuario() {
     async function atualizaUsuario(e) {
         e.preventDefault()
         try {
-            const cpf = cpfMask.match(/\d/g).join("");
             await apiLocal.put('/AlterarDadosUsuarios', {
                 id,
                 nome,
@@ -127,14 +120,6 @@ export default function UpdUsuario() {
         );
     };
 
-    function aplicarMascaraCPF(valor) {
-        const cpf = valor.replace(/\D/g, '').slice(0, 11);
-        if (cpf.length <= 3) return cpf;
-        if (cpf.length <= 6) return cpf.replace(/(\d{3})(\d+)/, '$1.$2');
-        if (cpf.length <= 9) return cpf.replace(/(\d{3})(\d{3})(\d+)/, '$1.$2.$3');
-        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
-    };
-
     return (
         <ScrollView>
             <View style={styles.formulario}>
@@ -148,12 +133,9 @@ export default function UpdUsuario() {
                 <TextInput
                     style={styles.campo}
                     placeholder='Digite o CPF'
-                    value={cpfMask}
-                    onChangeText={(valor) => {
-                        const cpfLimpo = valor.replace(/\D/g, '');
-                        setCpf(cpfLimpo);
-                        setCpfMask(aplicarMascaraCPF(valor));
-                    }}
+                    value={cpf}
+                    onChangeText={setCpf}
+                    maxLength={11}
                     on
                     keyboardType="numeric"
                 />
@@ -167,6 +149,7 @@ export default function UpdUsuario() {
                     style={styles.campo}
                     placeholder='Digite o Telefone'
                     value={telefone}
+                    maxLength={11}
                     onChangeText={setTelefone}
                 />
                 <TextInput
@@ -174,6 +157,7 @@ export default function UpdUsuario() {
                     placeholder='Digite o CEP'
                     value={cep}
                     onChangeText={setCep}
+                    maxLength={8}
                     onBlur={buscaCep}
                 />
                 <TextInput
@@ -210,6 +194,7 @@ export default function UpdUsuario() {
                     style={styles.campo}
                     placeholder='Digite o estado'
                     value={uf}
+                    maxLength={2}
                     onChangeText={setUf}
                 />
                 <TouchableOpacity style={styles.botao} onPress={atualizaUsuario}>

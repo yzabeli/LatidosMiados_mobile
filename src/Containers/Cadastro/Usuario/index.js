@@ -65,6 +65,7 @@ export default function CadUserInicioCont() {
                             placeholder='Digite o Telefone'
                             keyboardType='numeric'
                             value={telefone}
+                            maxLength={11}
                             onChangeText={setTelefone}
                         />
                         <TextInput

@@ -9,6 +9,7 @@ import {
     Text,
     Image,
     Dimensions,
+    ToastAndroid,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -27,10 +28,6 @@ export default function Carrinho() {
     const [dados, setDados] = useState({});
 
     const [dadosPedido, setDadosPedido] = useState(['']);
-    const [carrinhoAberto, setCarrinhoAberto] = useState(false);
-    const [n_pedido, setNPedido] = useState('');
-    const [existePedido, setExistePedido] = useState(false);
-    const [id_usuario, setIdUsuario] = useState('');
 
     const [loading, setLoading] = useState(true);
 
@@ -76,16 +73,57 @@ export default function Carrinho() {
         };
         VisualizaPedidos();
         // eslint-disable-next-line
-    }, [dados])
+    }, [dados]);
+
+    async function finalizarCarrinho(idCarrinho) {
+        try {
+            const resposta = await apiLocal.put('/FinalizarCarrinho',
+                { id: idCarrinho },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            ToastAndroid.show('Pedido Finalizado', ToastAndroid.SHORT);
+        } catch (error) {
+            console.error('Erro ao finalizar carrinho:', error.response?.data || error.message);
+        };
+        
+        try {
+            await apiLocal.delete(`/ApagarCarrinho/${idCarrinho}`,
+                { id: idCarrinho },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            navigation.navigate("FinalizaCarrinho");
+        } catch (error) {
+            console.error('Erro ao finalizar carrinho:', error.response?.data || error.message);
+        };
+    };
 
     async function apagarItensCarrinho(iddT) {
         try {
-            const resposta = await apiLocal.delete(`/ApagarItensCarrinho/${iddT}`, {
+            await apiLocal.delete(`/ApagarItensCarrinho/${iddT}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log(resposta.data.dados)
+            ToastAndroid.show('Item apagado com sucesso', ToastAndroid.SHORT);
+
+            const id = dados.id;
+            if (!id) return;
+            const resposta = await apiLocal.post('/visualizaPedidoClienteUnico', { id }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (resposta.data.id) {
+                setDadosPedido(resposta.data);
+            }
         } catch (err) {
             console.log(err)
         };
@@ -127,9 +165,15 @@ export default function Carrinho() {
                         )
                     }}
                 />
-                <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate("DrawerAuth")}>
-                    <Text style={styles.textoBotao}>Finalizar Pedido</Text>
-                </TouchableOpacity>
+                {dadosPedido.itens
+                    &&
+                    <TouchableOpacity
+                        style={styles.botao}
+                        onPress={() => finalizarCarrinho(dados.id, token)}
+                    >
+                        <Text style={styles.textoBotao}>Finalizar Pedido</Text>
+                    </TouchableOpacity>
+                }
             </SafeAreaView>
         </>
     );

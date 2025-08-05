@@ -7,10 +7,10 @@ import {
     TouchableOpacity,
     Text,
     Image,
+    ToastAndroid,
 } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ToastAndroid } from 'react-native';
 
 import { AutenticadoContexto } from '../../Contexts/authContexts';
 import apiLocal from '../../Api/apiLocal';
@@ -138,6 +138,7 @@ export default function InfoProd() {
                 setNPedido(resposta.data.n_pedido);
                 setExistePedido(true);
                 ToastAndroid.show('Carrinho Criado Com Sucesso', ToastAndroid.SHORT);
+                navigation.navigate("DrawerAuth");
             } catch (err) {
                 console.log("Erro ao adicionar item:", err);
                 ToastAndroid("Erro ao adicionar item:", ToastAndroid.SHORT);
@@ -154,6 +155,7 @@ export default function InfoProd() {
                     quantidade,
                 });
 
+                navigation.navigate("DrawerAuth");
                 ToastAndroid.show(resposta.data.dados, ToastAndroid.SHORT);
             } catch (err) {
                 console.log("Erro ao adicionar item:", err);
@@ -198,7 +200,6 @@ export default function InfoProd() {
                     </View>
                     <TouchableOpacity style={styles.botaoCar} onPress={() => {
                         adCarrinho(idT);
-                        navigation.navigate("DrawerAuth");
                     }}>
                         <Text style={styles.botaoCarText}>Adicionar ao Carrinho</Text>
                     </TouchableOpacity>
