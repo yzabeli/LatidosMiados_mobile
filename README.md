@@ -59,7 +59,7 @@ Tudo isso pensado para melhorar a experiência de compra do cliente e otimizar o
 
 ---
 
-## 📦 Estrutura de Pastas (Exemplo)
+## 📦 Estrutura de Pastas
 
 ```
 📁 src
