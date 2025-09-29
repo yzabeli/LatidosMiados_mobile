@@ -126,6 +126,47 @@ npx expo start
 
 ---
 
+<h2 id="colab">🤝 Collaborators</h2>
+
+Special thank you for all people that contributed for this project.
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/yzabeli">
+        <img src="https://avatars.githubusercontent.com/yzabeli" width="100px;" alt="Yzabeli Idalgo Picture"/><br>
+        <sub>
+          <b>Yzabeli Idalgo</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/monosodrac">
+        <img src="https://avatars.githubusercontent.com/u/141099551?v=4" width="100px;" alt="Mono Cardoso Picture"/><br>
+        <sub>
+          <b>Mono Cardoso</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/CaioMessi10">
+        <img src="https://avatars.githubusercontent.com/CaioMessi10" width="100px;" alt="Caio Martins Picture"/><br>
+        <sub>
+          <b>Caio Martins</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/lucaxdelrey">
+        <img src="https://avatars.githubusercontent.com/lucaxdelrey" width="100px;" alt="Lucas Martins Picture"/><br>
+        <sub>
+          <b>Lucas Martins</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
 ## 📌 Observações
 
 Este projeto foi desenvolvido com fins educacionais e demonstra a aplicação de conceitos de e-commerce, autenticação, integração com GPS e manipulação de dados no contexto de uma loja real.
